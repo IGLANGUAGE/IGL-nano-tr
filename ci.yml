@@ -1,0 +1,12 @@
+name: Build WASM
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rs/toolchain@v1
+        with:
+          target: wasm32-unknown-unknown
+      - run: cargo build --release --target wasm32-unknown-unknown
+      - run: wasm-opt -Oz -o nano.wasm target/wasm32-unknown-unknown/release/*.wasm
